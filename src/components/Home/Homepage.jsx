@@ -22,9 +22,6 @@ const Homepage = () => {
         {/* Page Content */}
         <div className="flex-1 p-6">
           {currentPage === "Dashboard" && <h1>Dashboard Page</h1>}
-          {currentPage === "Employee Database" && (
-            <h1>Employee Database Page</h1>
-          )}
           {currentPage === "New Hire" && <h1>New Hire Page</h1>}
           {currentPage === "Documentation" && <h1>Documentation Page</h1>}
           {currentPage === "Orientation" && <h1>Orientation Page</h1>}

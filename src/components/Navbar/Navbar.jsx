@@ -5,7 +5,7 @@ import { IoIosSearch } from "react-icons/io";
 const Navbar = () => {
   return (
     <nav className="bg-white fixed top-0 left-0 right-0 z-10">
-      <div className="px-4 py-3 flex justify-between items-center">
+      <div className="px-2 py-2 flex justify-between items-center">
         {/* Left Section: Company Logo and Name */}
         <div className="flex items-center space-x-2 ">
           <img
@@ -13,7 +13,7 @@ const Navbar = () => {
             alt="Company Logo"
             className="h-10 w-10 rounded-full"
           />
-          <span className="font-bold text-lg">Company Name</span>
+          <span className="font-bold text-xl">Company Name</span>
         </div>
 
         {/* Right Section: Search, Notification, User */}
@@ -21,7 +21,7 @@ const Navbar = () => {
           {/* Search Bar */}
           <div className="relative">
             <span className="absolute left-3 top-2 text-gray-400">
-              <IoIosSearch size={24} />
+              <IoIosSearch size={20} />
             </span>
             <input
               type="text"

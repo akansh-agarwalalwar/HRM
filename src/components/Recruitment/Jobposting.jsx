@@ -115,14 +115,14 @@ function Jobposting() {
   return (
     <div className="w-[90%] flex flex-col p-7">
       <div className="flex justify-between">
-        <p className="font-serif font-semibold text-gray-700 text-2xl">
+        <p className="font-serif font-semibold text-gray-700 text-xl">
           / Recruitment & Onboarding / Job Posting & Applicant Tracking
         </p>
       </div>
 
-      <div className="flex flex-row justify-end items-center w-full">
+      <div className="flex flex-row justify-end items-center w-full mt-4">
         <div className="flex flex-row items-center gap-5">
-          <button className="w-20 h-10 bg-cyan-500 text-white rounded-md">
+          <button className="w-16 h-10 bg-cyan-500 text-white rounded-md">
             Filter
           </button>
 
@@ -133,13 +133,13 @@ function Jobposting() {
             <input
               type="text"
               placeholder="Search or type a command (CTRL+G)"
-              className="pl-10 pr-4 py-2 w-96 bg-white rounded-full focus:outline-none"
+              className="pl-10 pr-4 py-2 w-80 bg-white rounded-full focus:outline-none"
             />
           </div>
 
           <div className="relative">
             <button onClick={toggleMenu} className="text-gray-500">
-              <HiOutlineDotsVertical size={30} color="black" />
+              <HiOutlineDotsVertical size={24} color="black" />
             </button>
 
             {/* Dropdown Menu */}
@@ -163,19 +163,19 @@ function Jobposting() {
       </div>
 
       {/* Employee Table */}
-      <div className="mt-10">
+      <div className="mt-6">
         <table className="min-w-full table-auto border-collapse">
           <thead>
             <tr className="bg-gray-100 text-left text-gray-700 font-semibold">
               <th className="px-4 py-2 flex gap-20">
                 <input type="checkbox" />
-                <th className="px-4 py-2">Title</th>
+                <th className="px-4 py-2 text-sm">Title</th>
               </th>
-              <th className="px-4 py-2">Title</th>
-              <th className="px-4 py-2">Title</th>
-              <th className="px-4 py-2">Title</th>
-              <th className="px-4 py-2">Title</th>
-              <th className="px-4 py-2">Title</th>
+              <th className="px-4 py-2 text-sm">Title</th>
+              <th className="px-4 py-2 text-sm">Title</th>
+              <th className="px-4 py-2 text-sm">Title</th>
+              <th className="px-4 py-2 text-sm">Title</th>
+              <th className="px-4 py-2 text-sm">Title</th>
             </tr>
           </thead>
           <tbody>
@@ -184,25 +184,25 @@ function Jobposting() {
                 key={indexOfFirstEntry + index}
                 className=" text-gray-700 hover:bg-gray-50"
               >
-                <td className="px-4 py-2 flex flex-row items-center gap-10">
+                <td className="px-4 py-2 text-sm flex flex-row items-center gap-10">
                   <input
                     type="checkbox"
                     checked={selectedRows.includes(indexOfFirstEntry + index)}
                     onChange={() => handleSelectRow(indexOfFirstEntry + index)}
                   />
-                  <FaPlus className="bg-blue-800 p-1" color="white" size={25} />
+                  <FaPlus className="bg-blue-800 p-1" color="white" size={20} />
                   {employee.title}
                 </td>
-                <td className="px-4 py-2">
+                <td className="px-4 py-2 text-sm">
                   <span className="bg-gray-200 p-2 rounded-md">
                     {employee.tag}
                   </span>
                 </td>
-                <td className="px-4 py-2 text-blue-700">{employee.link}</td>
-                <td className="px-4 py-2">
+                <td className="px-4 py-2 text-sm text-blue-700">{employee.link}</td>
+                <td className="px-4 py-2 text-sm">
                   <div
                     onClick={() => handleToggle(indexOfFirstEntry + index)}
-                    className={`relative w-14 h-8 flex items-center rounded-full cursor-pointer ${
+                    className={`relative w-14 h-6 flex items-center rounded-full cursor-pointer ${
                       toggles[indexOfFirstEntry + index]
                         ? "bg-blue-600"
                         : "bg-gray-300"
@@ -217,11 +217,11 @@ function Jobposting() {
                     />
                   </div>
                 </td>
-                <td className="px-4 py-2 flex flex-row items-center gap-2">
+                <td className="px-4 py-2 text-sm flex flex-row items-center gap-2">
                   <FaRegUserCircle />
                   {employee.phoneNumber}
                 </td>
-                <td className="px-4 py-2 text-blue-700">{employee.action}</td>
+                <td className="px-4 py-2 text-sm text-blue-700">{employee.action}</td>
               </tr>
             ))}
           </tbody>
@@ -229,7 +229,7 @@ function Jobposting() {
         {/* Pagination Controls */}
         <div className=" flex justify-around items-center mt-5 absolute bottom-10 w-[70%]">
           <div className="flex items-center gap-2">
-            <p>
+            <p className="text-sm">
               Showing{" "}
               <span className="font-semibold">{indexOfFirstEntry + 1}</span> to{" "}
               <span className="font-semibold">
@@ -243,14 +243,13 @@ function Jobposting() {
                 setEntriesPerPage(parseInt(e.target.value));
                 setCurrentPage(1);
               }}
-              className="p-2 bg-white border rounded"
+              className="p-2 bg-white border rounded text-sm"
             >
               <option value={5}>5/page</option>
               <option value={10}>10/page</option>
               <option value={20}>20/page</option>
             </select>
           </div>
-
           <div className="flex gap-2 items-center">
             <MdKeyboardArrowLeft />
             {[...Array(totalPages)].map((_, i) => (
@@ -265,8 +264,7 @@ function Jobposting() {
               </button>
             ))}
             <MdKeyboardArrowRight />
-
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-5 text-sm">
               <p>Go to Page</p>
               <div className="bg-white items-center flex justify-center h-8 w-8 rounded-sm">
                 <p>2</p>

@@ -33,26 +33,26 @@ function Dashboard() {
   ];
 
   return (
-    <div className="w-full p-4">
-      <div className="flex justify-between gap-10">
+    <div className="w-full p-2">
+      <div className="flex justify-between gap-8">
         {Data.map((item, index) => (
           <div
             key={index}
             className="flex flex-row items-center justify-around p-6 bg-white rounded-xl border border-gray-200 shadow-md transition-transform duration-200 ease-in-out transform hover:scale-105 w-full"
           >
             <div className="flex items-center justify-center w-1/4 mb-2">
-              <span className="text-3xl font-bold bg-gray-200 p-6 rounded-xl">
+              <span className="text-2xl font-bold bg-gray-200 p-3 rounded-xl">
                 {item.number}
               </span>
             </div>
             <div className="flex flex-col w-2/4">
-              <h3 className="text-2xl font-bold text-gray-900 ">
+              <h3 className="text-l font-bold text-gray-900 ">
                 {item.title}
               </h3>
-              <p className="text-sm text-gray-500">{item.subtitle}</p>
+              <p className="text-xs text-gray-500">{item.subtitle}</p>
             </div>
             <div
-              className={`w-1/4 ${item.color} p-4 rounded-xl flex items-center justify-center`}
+              className={`w-1/6 ${item.color} p-2 rounded-xl flex items-center justify-center`}
             >
               {item.icons}
             </div>

@@ -20,14 +20,13 @@ function AddEmployee() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission, e.g., send data to the backend or update the state.
     console.log("Employee Data:", employeeData);
   };
 
   return (
-    <div className="w-[90%] flex flex-col p-7">
-      <div className="flex justify-between mb-10 ">
-        <p className="font-serif font-semibold text-gray-700 text-2xl">
+    <div className="w-[90%] flex flex-col overflow-hidden">
+      <div className="flex justify-between mb-4">
+        <p className="font-serif font-semibold text-gray-700 text-xl">
           / Employee Database / Add New Employee
         </p>
       </div>
@@ -36,12 +35,12 @@ function AddEmployee() {
           <div className="flex flex-col justify-center items-center border-2 mb-10 rounded-lg">
             <div className="mt-10  border-5 border-dashed ">
               <div className="bg-gray-100 h-52 w-52 rounded-full justify-center flex items-center flex-col">
-                <IoCameraOutline size={30} />
-                <p className="text-xl">Upload Photo</p>
+                <IoCameraOutline size={24} />
+                <p className="text-l">Upload Photo</p>
               </div>
             </div>
-            <div className="flex flex-col gap-5 mt-5 mb-10">
-              <div className="text-center">
+            <div className="flex flex-col gap-5 mt-5 ">
+              <div className="text-center text-sm">
                 <p>Allowed Format</p>
                 <p className="font-semibold">JPEG, PNG, or GIF</p>
               </div>
@@ -51,11 +50,11 @@ function AddEmployee() {
               </div>
             </div>
           </div>
-          <button className="p-3 bg-cyan-500 text-white rounded-md ">
+          <button className="p-3 bg-cyan-500 text-white rounded-md">
             Add New Employee
           </button>
         </div>
-        <div className="flex flex-col gap-6 w-full">
+        <div className="flex flex-col gap-6 w-full text-sm">
           <div className="flex flex-row gap-10">
             <div className="flex flex-col w-full">
               <label className="mb-2">First Name</label>

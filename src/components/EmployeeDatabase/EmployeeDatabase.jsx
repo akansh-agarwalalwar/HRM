@@ -97,51 +97,46 @@ function EmployeeDatabase() {
   return (
     <div className="w-[90%] flex flex-col p-7">
       <div className="flex justify-between">
-        <p className="font-serif font-semibold text-gray-700 text-2xl">
+        <p className="font-serif font-semibold text-gray-700 text-xl">
           / Employee Database
         </p>
         <Link to="/add-employee">
-          <button className="p-3 bg-cyan-500 text-white rounded-md">
+          <button className="p-2 bg-cyan-500 text-white rounded-md">
             Add New Employee
           </button>
         </Link>
       </div>
-
-      <div className="flex flex-row justify-between items-center mt-10">
-        <p className="text-2xl font-bold">All Customers</p>
+      <div className="flex flex-row justify-between items-center mt-5">
+        <p className="text-xl font-bold">All Customers</p>
         <div className="flex flex-row items-center gap-5">
-          <button className="w-20 h-10 bg-cyan-500 text-white rounded-md">
+          <button className="w-16 h-10 bg-cyan-500 text-white rounded-md">
             Filter
           </button>
-
           <div className="relative">
             <span className="absolute left-3 top-2 text-gray-400">
-            <IoIosSearch size={24} />
-              
+              <IoIosSearch size={24} />
             </span>
             <input
               type="text"
               placeholder="Search or type a command (CTRL+G)"
-              className="pl-10 pr-4 py-2 w-96 bg-white rounded-full focus:outline-none"
+              className="pl-10 pr-4 py-2 w-80 bg-white rounded-full focus:outline-none"
             />
           </div>
-
           <div className="relative">
             <button onClick={toggleMenu} className="text-gray-500">
-              <HiOutlineDotsVertical size={30} color="black" />
+              <HiOutlineDotsVertical size={24} color="black" />
             </button>
-
             {/* Dropdown Menu */}
             {isMenuOpen && (
               <div className="absolute left-5 w-40 bg-white rounded-md shadow-lg z-10">
                 <ul className="py-1">
-                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm">
                     Edit
                   </li>
-                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm">
                     Delete
                   </li>
-                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm">
                     Alter
                   </li>
                 </ul>
@@ -150,22 +145,21 @@ function EmployeeDatabase() {
           </div>
         </div>
       </div>
-
       {/* Employee Table */}
-      <div className="mt-10">
+      <div className="mt-8">
         <table className="min-w-full table-auto border-collapse">
           <thead>
             <tr className="bg-gray-100 text-left text-gray-700 font-semibold">
               <th className="px-4 py-2"></th>
-              <th className="px-4 py-2">S/N</th>
-              <th className="px-4 py-2">First Name</th>
-              <th className="px-4 py-2">Last Name</th>
-              <th className="px-4 py-2">Gender</th>
-              <th className="px-4 py-2">Employee ID</th>
-              <th className="px-4 py-2">Phone Number</th>
-              <th className="px-4 py-2">Role</th>
-              <th className="px-4 py-2">Designation</th>
-              <th className="px-4 py-2">Joined Date</th>
+              <th className="px-4 py-2 text-sm">S/N</th>
+              <th className="px-4 py-2 text-sm">First Name</th>
+              <th className="px-4 py-2 text-sm">Last Name</th>
+              <th className="px-4 py-2 text-sm">Gender</th>
+              <th className="px-4 py-2 text-sm">Employee ID</th>
+              <th className="px-4 py-2 text-sm">Phone Number</th>
+              <th className="px-4 py-2 text-sm">Role</th>
+              <th className="px-4 py-2 text-sm">Designation</th>
+              <th className="px-4 py-2 text-sm">Joined Date</th>
             </tr>
           </thead>
           <tbody>
@@ -199,7 +193,7 @@ function EmployeeDatabase() {
         {/* Pagination Controls */}
         <div className=" flex justify-around items-center mt-5 absolute bottom-10 w-[70%]">
           <div className="flex items-center gap-2">
-            <p>
+            <p className="text-sm">
               Showing{" "}
               <span className="font-semibold">{indexOfFirstEntry + 1}</span> to{" "}
               <span className="font-semibold">
@@ -213,7 +207,7 @@ function EmployeeDatabase() {
                 setEntriesPerPage(parseInt(e.target.value));
                 setCurrentPage(1);
               }}
-              className="p-2 bg-white border rounded"
+              className="p-2 bg-white border rounded text-sm"
             >
               <option value={5}>5/page</option>
               <option value={10}>10/page</option>
@@ -234,8 +228,7 @@ function EmployeeDatabase() {
               </button>
             ))}
             <MdKeyboardArrowRight />
-
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-5 text-sm">
               <p>Go to Page</p>
               <div className="bg-white items-center flex justify-center h-8 w-8 rounded-sm">
                 <p>2</p>

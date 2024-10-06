@@ -1,86 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; // Added useEffect import
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { IoIosSearch } from "react-icons/io";
-import { MdKeyboardArrowLeft } from "react-icons/md";
-import { MdKeyboardArrowRight } from "react-icons/md";
-import { MdOutlineDateRange } from "react-icons/md";
+import {
+  MdKeyboardArrowLeft,
+  MdKeyboardArrowRight,
+  MdOutlineDateRange,
+} from "react-icons/md";
 import { Link } from "react-router-dom";
+
 function EmployeeDatabase() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [entriesPerPage, setEntriesPerPage] = useState(5);
+  const [staffData, setStaffData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const Data = [
-    {
-      firstName: "ABC",
-      lastName: "ABC",
-      gender: "male",
-      employeeID: "123",
-      phoneNumber: "123456",
-      role: "asdf",
-      designation: "sdfgh",
-      joinedDate: "2022-09-05",
-    },
-    {
-      firstName: "XYZ",
-      lastName: "XYZ",
-      gender: "female",
-      employeeID: "124",
-      phoneNumber: "654321",
-      role: "qwer",
-      designation: "tyuio",
-      joinedDate: "2023-01-10",
-    },
-    {
-      firstName: "DEF",
-      lastName: "DEF",
-      gender: "male",
-      employeeID: "125",
-      phoneNumber: "789012",
-      role: "dev",
-      designation: "engineer",
-      joinedDate: "2022-12-01",
-    },
-    {
-      firstName: "GHI",
-      lastName: "GHI",
-      gender: "female",
-      employeeID: "126",
-      phoneNumber: "345678",
-      role: "admin",
-      designation: "manager",
-      joinedDate: "2021-07-15",
-    },
-    {
-      firstName: "JKL",
-      lastName: "JKL",
-      gender: "male",
-      employeeID: "127",
-      phoneNumber: "901234",
-      role: "sales",
-      designation: "executive",
-      joinedDate: "2023-03-20",
-    },
-    {
-      firstName: "MNO",
-      lastName: "MNO",
-      gender: "female",
-      employeeID: "128",
-      phoneNumber: "567890",
-      role: "hr",
-      designation: "officer",
-      joinedDate: "2020-05-30",
-    },
-  ];
+  useEffect(() => {
+    const fetchStaffData = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:9001/api/employee/getEmployee"
+        );
+        const data = await response.json();
+        setStaffData(data);
+      } catch (error) {
+        console.error("Error fetching staff data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStaffData();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   const indexOfLastEntry = currentPage * entriesPerPage;
   const indexOfFirstEntry = indexOfLastEntry - entriesPerPage;
-  const currentEntries = Data.slice(indexOfFirstEntry, indexOfLastEntry);
+  const currentEntries = staffData.slice(indexOfFirstEntry, indexOfLastEntry);
 
   const handleSelectRow = (index) => {
     setSelectedRows((prev) =>
@@ -88,26 +52,31 @@ function EmployeeDatabase() {
     );
   };
 
-  const totalPages = Math.ceil(Data.length / entriesPerPage);
+  const totalPages = Math.ceil(staffData.length / entriesPerPage);
 
   const handlePageChange = (pageNum) => {
     setCurrentPage(pageNum);
   };
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString(); // Format the date to a readable format
+  };
+
   return (
-    <div className="w-[90%] flex flex-col p-7">
+    <div className="w-full flex flex-col p-7">
       <div className="flex justify-between">
         <p className="font-serif font-semibold text-gray-700 text-xl">
           / Employee Database
         </p>
-        <Link to="/add-employee">
+        <Link to="/hrm/add-employee">
           <button className="p-2 bg-cyan-500 text-white rounded-md">
             Add New Employee
           </button>
         </Link>
       </div>
       <div className="flex flex-row justify-between items-center mt-5">
-        <p className="text-xl font-bold">All Customers</p>
+        <p className="text-xl font-bold">All Employees</p>
         <div className="flex flex-row items-center gap-5">
           <button className="w-16 h-10 bg-cyan-500 text-white rounded-md">
             Filter
@@ -126,7 +95,7 @@ function EmployeeDatabase() {
             <button onClick={toggleMenu} className="text-gray-500">
               <HiOutlineDotsVertical size={24} color="black" />
             </button>
-            {/* Dropdown Menu */}
+
             {isMenuOpen && (
               <div className="absolute left-5 w-40 bg-white rounded-md shadow-lg z-10">
                 <ul className="py-1">
@@ -145,7 +114,7 @@ function EmployeeDatabase() {
           </div>
         </div>
       </div>
-      {/* Employee Table */}
+
       <div className="mt-8">
         <table className="min-w-full table-auto border-collapse">
           <thead>
@@ -166,7 +135,7 @@ function EmployeeDatabase() {
             {currentEntries.map((employee, index) => (
               <tr
                 key={indexOfFirstEntry + index}
-                className=" text-gray-700 hover:bg-gray-50"
+                className="text-gray-700 hover:bg-gray-50"
               >
                 <td className="px-4 py-2">
                   <input
@@ -178,28 +147,44 @@ function EmployeeDatabase() {
                 <td className="px-4 py-2">{indexOfFirstEntry + index + 1}</td>
                 <td className="px-4 py-2">{employee.firstName}</td>
                 <td className="px-4 py-2">{employee.lastName}</td>
-                <td className="px-4 py-2">{employee.gender}</td>
+                <td className="px-4 py-2">
+                  {employee.gender
+                    ? employee.gender.charAt(0).toUpperCase() +
+                      employee.gender.slice(1)
+                    : "N/A"}
+                </td>
                 <td className="px-4 py-2">{employee.employeeID}</td>
-                <td className="px-4 py-2">{employee.phoneNumber}</td>
-                <td className="px-4 py-2">{employee.role}</td>
-                <td className="px-4 py-2">{employee.designation}</td>
+                <td className="px-4 py-2">{employee.phone}</td>
+                <td className="px-4 py-2">
+                  {employee.role
+                    ? employee.role.charAt(0).toUpperCase() +
+                      employee.role.slice(1)
+                    : "N/A"}
+                </td>
+                <td className="px-4 py-2">
+                  {employee.position
+                    ? employee.position.charAt(0).toUpperCase() +
+                      employee.position.slice(1)
+                    : "N/A"}
+                </td>
                 <td className="px-4 py-2 flex flex-row items-center gap-4">
-                  {employee.joinedDate} <MdOutlineDateRange />
+                  {formatDate(employee.joinedDate)} <MdOutlineDateRange />
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-        {/* Pagination Controls */}
-        <div className=" flex justify-around items-center mt-5 absolute bottom-10 w-[70%]">
+
+        <div className="flex justify-around items-center mt-5 absolute bottom-10 w-[70%]">
           <div className="flex items-center gap-2">
             <p className="text-sm">
               Showing{" "}
               <span className="font-semibold">{indexOfFirstEntry + 1}</span> to{" "}
               <span className="font-semibold">
-                {Math.min(indexOfLastEntry, Data.length)}
+                {Math.min(indexOfLastEntry, staffData.length)}
               </span>{" "}
-              of <span className="font-semibold">{Data.length}</span> entries
+              of <span className="font-semibold">{staffData.length}</span>{" "}
+              entries
             </p>
             <select
               value={entriesPerPage}
@@ -220,7 +205,7 @@ function EmployeeDatabase() {
               <button
                 key={i}
                 onClick={() => handlePageChange(i + 1)}
-                className={` h-8 w-8 items-center justify-center rounded-md ${
+                className={`h-8 w-8 items-center justify-center rounded-md ${
                   currentPage === i + 1 ? "bg-gray-400" : ""
                 }`}
               >

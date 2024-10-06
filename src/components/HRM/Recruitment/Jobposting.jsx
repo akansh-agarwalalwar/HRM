@@ -6,9 +6,9 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { FaPlus } from "react-icons/fa6";
 import { FaRegUserCircle } from "react-icons/fa";
+import FilterSearchBar from "../Utils/FilterSearchBar";
 
 function Jobposting() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [entriesPerPage, setEntriesPerPage] = useState(5);
@@ -19,13 +19,11 @@ function Jobposting() {
   const handleToggle = (index) => {
     setToggles((prev) => ({
       ...prev,
-      [index]: !prev[index], // Toggle the specific index
+      [index]: !prev[index], 
     }));
   };
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+
 
   const Data = [
     {
@@ -119,48 +117,7 @@ function Jobposting() {
           / Recruitment & Onboarding / Job Posting & Applicant Tracking
         </p>
       </div>
-
-      <div className="flex flex-row justify-end items-center w-full mt-4">
-        <div className="flex flex-row items-center gap-5">
-          <button className="w-16 h-10 bg-cyan-500 text-white rounded-md">
-            Filter
-          </button>
-
-          <div className="relative">
-            <span className="absolute left-3 top-2 text-gray-400">
-              <IoIosSearch size={24} />
-            </span>
-            <input
-              type="text"
-              placeholder="Search or type a command (CTRL+G)"
-              className="pl-10 pr-4 py-2 w-80 bg-white rounded-full focus:outline-none"
-            />
-          </div>
-
-          <div className="relative">
-            <button onClick={toggleMenu} className="text-gray-500">
-              <HiOutlineDotsVertical size={24} color="black" />
-            </button>
-
-            {/* Dropdown Menu */}
-            {isMenuOpen && (
-              <div className="absolute left-5 w-40 bg-white rounded-md shadow-lg z-10">
-                <ul className="py-1">
-                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                    Edit
-                  </li>
-                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                    Delete
-                  </li>
-                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                    Alter
-                  </li>
-                </ul>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
+      <FilterSearchBar />
 
       {/* Employee Table */}
       <div className="mt-6">
@@ -198,7 +155,9 @@ function Jobposting() {
                     {employee.tag}
                   </span>
                 </td>
-                <td className="px-4 py-2 text-sm text-blue-700">{employee.link}</td>
+                <td className="px-4 py-2 text-sm text-blue-700">
+                  {employee.link}
+                </td>
                 <td className="px-4 py-2 text-sm">
                   <div
                     onClick={() => handleToggle(indexOfFirstEntry + index)}
@@ -221,7 +180,9 @@ function Jobposting() {
                   <FaRegUserCircle />
                   {employee.phoneNumber}
                 </td>
-                <td className="px-4 py-2 text-sm text-blue-700">{employee.action}</td>
+                <td className="px-4 py-2 text-sm text-blue-700">
+                  {employee.action}
+                </td>
               </tr>
             ))}
           </tbody>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUsers,
@@ -9,11 +9,37 @@ import StaffList from "./StaffList";
 import PaymentVoucher from "./PaymentVoucher";
 
 function Dashboard() {
+  const [staffData, setStaffData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStaffData = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:9001/api/employee/getEmployee"
+        );
+        const data = await response.json();
+        setStaffData(data);
+        console.log(data);
+      } catch (error) {
+        console.error("Error fetching staff data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStaffData();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   const Data = [
     {
-      number: "120",
+      number: staffData.length,
       title: "Total Staff",
-      subtitle: "12 percent data",
+      subtitle: `${staffData.length} staff members`,
       icons: <FontAwesomeIcon icon={faUsers} size="lg" />,
       color: "bg-blue-100",
     },
@@ -33,7 +59,7 @@ function Dashboard() {
   ];
 
   return (
-    <div className="w-full p-2">
+    <div className="w-full p-2 overflow-hidden">
       <div className="flex justify-between gap-8">
         {Data.map((item, index) => (
           <div
@@ -46,9 +72,7 @@ function Dashboard() {
               </span>
             </div>
             <div className="flex flex-col w-2/4">
-              <h3 className="text-l font-bold text-gray-900 ">
-                {item.title}
-              </h3>
+              <h3 className="text-l font-bold text-gray-900 ">{item.title}</h3>
               <p className="text-xs text-gray-500">{item.subtitle}</p>
             </div>
             <div
@@ -60,8 +84,8 @@ function Dashboard() {
         ))}
       </div>
       <div className="flex w-[90%] justify-around mt-10 gap-10">
-      <StaffList />
-      <PaymentVoucher />
+        <StaffList />
+        <PaymentVoucher />
       </div>
     </div>
   );

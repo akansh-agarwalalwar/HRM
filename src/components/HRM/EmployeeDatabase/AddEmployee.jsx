@@ -1,26 +1,56 @@
 import React, { useState } from "react";
 import { IoCameraOutline } from "react-icons/io5";
+
 function AddEmployee() {
   const [employeeData, setEmployeeData] = useState({
     firstName: "",
     lastName: "",
     gender: "",
     employeeID: "",
-    phoneNumber: "",
+    phone: "",
     role: "",
-    designation: "",
+    position: "",
     joinedDate: "",
-    officailEmail:""
+    officialEmail: "",
+    email: "",
   });
+
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEmployeeData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Employee Data:", employeeData);
+    setError("");
+    setSuccess("");
+
+    try {
+      const response = await fetch(
+        "http://localhost:9001/api/employee/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(employeeData),
+        }
+      );
+
+      if (response.ok) {
+        const result = await response.json();
+        setSuccess("Employee added successfully!");
+        console.log("Response:", result);
+      } else {
+        setError("Failed to add employee. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setError("An error occurred. Please try again.");
+    }
   };
 
   return (
@@ -33,13 +63,13 @@ function AddEmployee() {
       <div className="bg-white shadow-md p-6 rounded-lg flex justify-between gap-10">
         <div className="w-[35%] justify-between flex flex-col">
           <div className="flex flex-col justify-center items-center border-2 mb-10 rounded-lg">
-            <div className="mt-10  border-5 border-dashed ">
+            <div className="mt-10 border-5 border-dashed">
               <div className="bg-gray-100 h-52 w-52 rounded-full justify-center flex items-center flex-col">
                 <IoCameraOutline size={24} />
                 <p className="text-l">Upload Photo</p>
               </div>
             </div>
-            <div className="flex flex-col gap-5 mt-5 ">
+            <div className="flex flex-col gap-5 mt-5">
               <div className="text-center text-sm">
                 <p>Allowed Format</p>
                 <p className="font-semibold">JPEG, PNG, or GIF</p>
@@ -50,10 +80,16 @@ function AddEmployee() {
               </div>
             </div>
           </div>
-          <button className="p-3 bg-cyan-500 text-white rounded-md">
+          <button
+            onClick={handleSubmit}
+            className="p-3 bg-cyan-500 text-white rounded-md"
+          >
             Add New Employee
           </button>
+          {error && <p className="text-red-500 mt-3">{error}</p>}
+          {success && <p className="text-green-500 mt-3">{success}</p>}
         </div>
+
         <div className="flex flex-col gap-6 w-full text-sm">
           <div className="flex flex-row gap-10">
             <div className="flex flex-col w-full">
@@ -81,8 +117,8 @@ function AddEmployee() {
             <div className="flex flex-col w-full">
               <label className="mb-2">Email Address</label>
               <input
-                name="emailAddress"
-                value={employeeData.emailAddress}
+                name="email"
+                value={employeeData.email}
                 onChange={handleChange}
                 placeholder="Enter Email Address"
                 className="border-2 p-3 rounded-xl"
@@ -91,8 +127,8 @@ function AddEmployee() {
             <div className="flex flex-col w-full">
               <label className="mb-2">Phone Number</label>
               <input
-                name="phoneNumber"
-                value={employeeData.phoneNumber}
+                name="phone"
+                value={employeeData.phone}
                 onChange={handleChange}
                 placeholder="Enter Phone Number"
                 className="border-2 p-3 rounded-xl"
@@ -115,18 +151,6 @@ function AddEmployee() {
               </select>
             </div>
             <div className="flex flex-col w-full">
-              <label className="mb-2">Phone Number</label>
-              <input
-                name="phoneNumber"
-                value={employeeData.phoneNumber}
-                onChange={handleChange}
-                placeholder="Enter Phone Number"
-                className="border-2 p-3 rounded-xl"
-              />
-            </div>
-          </div>
-          <div className="flex flex-row gap-10">
-            <div className="flex flex-col w-full">
               <label className="mb-2">Role</label>
               <select
                 name="role"
@@ -137,38 +161,63 @@ function AddEmployee() {
                 <option value="">Select Role</option>
                 <option value="admin">Admin</option>
                 <option value="manager">Manager</option>
-                <option value="staff">Staff</option>
-                <option value="intern">Intern</option>
+                <option value="staff">Employee</option>
+                <option value="intern">HR</option>
               </select>
             </div>
+          </div>
+          <div className="flex flex-row gap-10">
             <div className="flex flex-col w-full">
-              <label className="mb-2">Designation</label>
+              <label className="mb-2">Position</label>
               <select
-                name="designation"
-                value={employeeData.designation}
+                name="position"
+                value={employeeData.position}
                 onChange={handleChange}
                 className="border-2 p-3 rounded-xl"
               >
-                <option value="">Select Designation</option>
+                <option value="">Select position</option>
                 <option value="developer">Developer</option>
                 <option value="designer">Designer</option>
                 <option value="analyst">Analyst</option>
                 <option value="hr">HR</option>
               </select>
             </div>
+            <div className="flex flex-col w-full">
+              <label className="mb-2">Department</label>
+              <select
+                name="position"
+                value={employeeData.position}
+                onChange={handleChange}
+                className="border-2 p-3 rounded-xl"
+              >
+                <option value="">Select Department</option>
+                <option value="developer">Department 1</option>
+                <option value="designer">Department 2</option>
+                <option value="analyst">Department 3</option>
+                <option value="hr">Department 4</option>
+              </select>
+            </div>
           </div>
           <div className="flex flex-row gap-10">
             <div className="flex flex-col w-full">
-              <label className="mb-2">Employee ID</label>
-              <div className="w-full bg-gray-100 justify-center items-center h-12 flex rounded-lg border-2">
-              <p>Employee ID</p>
-              </div>
+              <label className="mb-2">Official Email</label>
+              <input
+                name="officialEmail" // Corrected name attribute
+                value={employeeData.officialEmail}
+                onChange={handleChange}
+                placeholder="Enter Official Email"
+                className="border-2 p-3 rounded-xl"
+              />
             </div>
             <div className="flex flex-col w-full">
-              <label className="mb-2">Official email</label>
-              <div className="w-full bg-gray-100 justify-center items-center h-12 flex rounded-lg border-2">
-              <p>Officail Email</p>
-              </div>
+              <label className="mb-2">Employee ID</label>
+              <input
+                name="employeeID" // Corrected name attribute
+                value={employeeData.employeeID}
+                onChange={handleChange}
+                placeholder="Enter Employee ID"
+                className="border-2 p-3 rounded-xl"
+              />
             </div>
           </div>
         </div>
